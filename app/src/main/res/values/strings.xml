@@ -1,0 +1,88 @@
+<resources>
+
+    <!--  MAIN ACTIVITY  -->
+
+    <string name="app_name">Poker</string>
+    <string name="title">POKER \n Texas Holdem!</string>
+    <string name="handsList">Hands\nList</string>
+    <string name="play">Play</string>
+    <string name="join">Join</string>
+    <string name="avatar">Avatar</string>
+
+    <!-- BUTTON CONSTRAINS -->
+
+        <string name="avatarImage">avatarImage</string>
+        <string name="aceA">aceA</string>
+        <string name="aceB">aceB</string>
+        <string name="aceC">aceC</string>
+        <string name="aceD">aceD</string>
+        <string name="twoA">twoA</string>
+        <string name="twoB">twoB</string>
+        <string name="twoC">twoC</string>
+        <string name="twoD">twoD</string>
+        <string name="threeA">threeA</string>
+        <string name="threeB">threeB</string>
+        <string name="threeC">threeC</string>
+        <string name="threeD">threeD</string>
+        <string name="fourA">fourA</string>
+        <string name="fourB">fourB</string>
+        <string name="fourC">fourC</string>
+        <string name="fourD">fourD</string>
+        <string name="fiveA">fiveA</string>
+        <string name="fiveB">fiveB</string>
+        <string name="fiveC">fiveC</string>
+        <string name="fiveD">fiveD</string>
+        <string name="sixA">fixA</string>
+        <string name="sixB">fixB</string>
+        <string name="sixC">fixC</string>
+        <string name="sixD">fixD</string>
+        <string name="sevenA">sevenA</string>
+        <string name="sevenB">sevenB</string>
+        <string name="sevenC">sevenC</string>
+        <string name="sevenD">sevenD</string>
+        <string name="eightA">eightA</string>
+        <string name="eightB">eightB</string>
+        <string name="eightC">eightC</string>
+        <string name="eightD">eightD</string>
+        <string name="nineA">nineA</string>
+        <string name="nineB">nineB</string>
+        <string name="nineC">nineC</string>
+        <string name="nineD">nineD</string>
+        <string name="tenA">tenA</string>
+        <string name="tenB">tenB</string>
+        <string name="tenC">tenC</string>
+        <string name="tenD">tenD</string>
+        <string name="jackA">jackA</string>
+        <string name="jackB">jackB</string>
+        <string name="jackC">jackC</string>
+        <string name="jackD">jackD</string>
+        <string name="queenA">queenA</string>
+        <string name="queenB">queenB</string>
+        <string name="queenC">queenC</string>
+        <string name="queenD">queenD</string>
+        <string name="kingA">kingA</string>
+        <string name="kingB">kingB</string>
+        <string name="kingC">kingC</string>
+        <string name="kingD">kingD</string>
+
+
+
+    <!-- CARD GALLERY  -->
+
+        <!-- HANDS -->
+        <string name="firstHand">One Pair</string>
+        <string name="secondHand">Two Pairs</string>
+        <string name="thirdHand">Three of a kind</string>
+        <string name="fourthHand">Straight</string>
+        <string name="fifthHand">Flush</string>
+        <string name="sixthHand">Full house</string>
+        <string name="seventhHand">Four of a kind</string>
+        <string name="eighthHand">Straight flush</string>
+        <string name="ninthHand">Royal flush</string>
+
+    <string name="title_activity_card_gallery">CardGallery</string>
+    <string name="title_rooms">Rooms</string>
+    <string name="cardGalleryTitle">List of possible hands</string>
+    <!-- Strings used for fragments for navigation -->
+
+</resources>

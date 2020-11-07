@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <RelativeLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordinatorLayout"
+        android:background="@drawable/second_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal"
+        tools:context=".CardGallery">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <TextView
+            android:id="@+id/cardGalleryTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="136dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/cardGalleryTitle"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+        />
+
+        <TextView
+            android:id="@+id/firstHand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="80dp"
+            android:text="@string/firstHand"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+        />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="100dp"
+            android:contentDescription="@string/kingA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_49">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="100dp"
+            android:contentDescription="@string/kingB"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_50">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/secondHand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="230dp"
+            android:text="@string/secondHand"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="250dp"
+            android:contentDescription="@string/tenB"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_38">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="250dp"
+            android:contentDescription="@string/tenD"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_40">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="250dp"
+            android:contentDescription="@string/jackB"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_42">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="250dp"
+            android:contentDescription="@string/jackD"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_44">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/thirdHand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="380dp"
+            android:text="@string/thirdHand"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="400dp"
+            android:contentDescription="@string/twoB"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_1">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="400dp"
+            android:contentDescription="@string/aceD"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_4">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="400dp"
+            android:contentDescription="@string/aceB"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_2">
+
+        </ImageView>
+
+        <TextView
+        android:id="@+id/fourthHand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="530dp"
+        android:text="@string/fourthHand"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="550dp"
+            android:contentDescription="@string/aceB"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_1">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="550dp"
+            android:contentDescription="@string/twoC"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_7">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="550dp"
+            android:contentDescription="@string/threeB"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_10">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="550dp"
+            android:contentDescription="@string/fourD"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_16">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="260dp"
+            android:layout_marginTop="550dp"
+            android:contentDescription="@string/fiveA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_17">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/fifthHand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="680dp"
+            android:text="@string/fifthHand"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="700dp"
+            android:contentDescription="@string/twoA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_5">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="700dp"
+            android:contentDescription="@string/queenA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_45">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="700dp"
+            android:contentDescription="@string/threeA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_9">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="700dp"
+            android:contentDescription="@string/eightA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_29">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="260dp"
+            android:layout_marginTop="700dp"
+            android:contentDescription="@string/jackA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_41">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/sixthHand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="830dp"
+            android:text="@string/sixthHand"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="850dp"
+            android:contentDescription="@string/queenB"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_46">
+
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="850dp"
+            android:contentDescription="@string/queenA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_45">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="850dp"
+            android:contentDescription="@string/twoC"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_7">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="850dp"
+            android:contentDescription="@string/twoD"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_8">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="260dp"
+            android:layout_marginTop="850dp"
+            android:contentDescription="@string/twoB"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_6">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/seventhHand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="980dp"
+            android:text="@string/seventhHand"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="1000dp"
+            android:contentDescription="@string/jackA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_41">
+
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="1000dp"
+            android:contentDescription="@string/jackB"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_42">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="1000dp"
+            android:contentDescription="@string/jackC"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_43">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="1000dp"
+            android:contentDescription="@string/jackD"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_44">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/eighthHand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="1130dp"
+            android:text="@string/eighthHand"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="1150dp"
+            android:contentDescription="@string/twoC"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_7">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="1150dp"
+            android:contentDescription="@string/threeC"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_11">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="1150dp"
+            android:contentDescription="@string/fourC"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_15">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="1150dp"
+            android:contentDescription="@string/fiveC"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_19">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="260dp"
+            android:layout_marginTop="1150dp"
+            android:contentDescription="@string/sixC"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_23">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/ninthHand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="1280dp"
+            android:text="@string/ninthHand"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="1300dp"
+            android:contentDescription="@string/tenA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_37">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="1300dp"
+            android:contentDescription="@string/jackA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_41">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="1300dp"
+            android:contentDescription="@string/queenA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_45">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="1300dp"
+            android:contentDescription="@string/kingA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_49">
+
+        </ImageView>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="260dp"
+            android:layout_marginTop="1300dp"
+            android:contentDescription="@string/aceA"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:src="@drawable/card_1">
+
+        </ImageView>
+
+    </RelativeLayout>
+</ScrollView>
