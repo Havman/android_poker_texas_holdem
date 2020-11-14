@@ -2,6 +2,8 @@ package com.example.poker;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -10,14 +12,16 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-public class Test extends Activity {
+public class Test extends Activity{
 
     ImageView image;
 
     Button randomButton;
     Button nextCardButton;
+    Button deckButton;
 
-    Card card = new Card(1, 'A', "card_1");
+    Card card = new Card(1, 'A');
+    Deck deck = new Deck();
 
     private void initialize() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -27,6 +31,7 @@ public class Test extends Activity {
 
         randomButton = findViewById(R.id.randomCard);
         nextCardButton = findViewById(R.id.nextCard);
+        deckButton = findViewById(R.id.fullDeck);
     }
 
 
@@ -55,6 +60,14 @@ public class Test extends Activity {
             public void onClick(View v) {
                 card = card.getNextCard();
                 setImageByCard(image, card);
+            }
+        });
+
+        deckButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deck.shuffleDeck();
+                Log.d("onClick", deck.toString());
             }
         });
     }

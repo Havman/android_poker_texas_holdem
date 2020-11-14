@@ -13,15 +13,15 @@ public class Card {
     public Card(){
         figure = 1;
         suit = 'A';
-        image = "card_1";
     }
 
-    public Card(int _figure, char _suit, String _image){
+    public Card(int _figure, char _suit){
         figure = _figure;
         suit = _suit;
-        image = _image;
+        image = "card_" + (4*(_figure-1) + ((int)suit - 64));
     }
 
+    public int getFigure() { return this.figure; }
     public String getImage() {
         return this.image;
     }
@@ -41,14 +41,14 @@ public class Card {
         private suits(char id) { suitID = id; }
     }
 
-    public final Card[] getDeck(){
+    public static final Card[] getDeck(){
         Card[] deck = new Card[52];
 
         for (int i = 1; i<14; i++) {
-            deck[4*(i-1)] = new Card(i, 'A', "card_" + (4*(i-1)));
-            deck[4*(i-1)+1] = new Card(i, 'B', "card_" + (4*(i-1)+1));
-            deck[4*(i-1)+2] = new Card(i, 'C', "card_" + (4*(i-1)+2));
-            deck[4*(i-1)+3] = new Card(i, 'D', "card_" + (4*(i-1)+3));
+            deck[4*(i-1)] = new Card(i, 'A');
+            deck[4*(i-1)+1] = new Card(i, 'B');
+            deck[4*(i-1)+2] = new Card(i, 'C');
+            deck[4*(i-1)+3] = new Card(i, 'D');
         }
         return deck;
     }
@@ -56,8 +56,8 @@ public class Card {
      public final Card getRandomCard(){
          Random random = new Random();
          int figure = random.nextInt(13) + 1;
-         int suit = (random.nextInt(4) + 1);
-         return new Card(figure, (char)suit, "card_" + (4*(figure-1)+suit));
+         int suit = (random.nextInt(3) + 65);
+         return new Card(figure, (char)suit);
      }
 
      public final Card getNextCard() {
@@ -75,7 +75,7 @@ public class Card {
          if (nr == 0) nr = 1;
          String nextImage = "card_" + nr;
          Log.d("getNextCard - fig", "" + nextFigure);
-         Log.d("getNextCard - sut", "" + (char)nextSuit);
+         Log.d("getNextCard - sut", "" + nextSuit);
          Log.d("getNextCard - image", nextImage);
 
          this.figure = nextFigure;
@@ -84,9 +84,19 @@ public class Card {
          return this;
      }
 
-    @Override
-    @SuppressWarnings("NullableProblems")
-    public String toString() {
-        return "Figure: " + this.figure + " Suit: " + this.suit + " Image: " + this.image;
-    }
+     @Override
+     public boolean equals(Object object){
+        if(this == object)
+            return true;
+        else if(object == null)
+            return false;
+        Card otherCard = (Card)object;
+        return (this.figure.equals(otherCard.figure) && this.suit.equals(otherCard.suit));
+     }
+
+     @Override
+     @SuppressWarnings("NullableProblems")
+     public String toString() {
+        return "\nFigure: " + this.figure + " Suit: " + this.suit + " Image: " + this.image;
+     }
 }

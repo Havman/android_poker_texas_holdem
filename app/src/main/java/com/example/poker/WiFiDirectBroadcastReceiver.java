@@ -1,33 +1,22 @@
 package com.example.poker;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+
 import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
+
 import android.net.NetworkInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
-import android.os.Build;
-import android.os.Bundle;
+
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.List;
 
-import static android.os.Looper.getMainLooper;
 
 /**
  * A BroadcastReceiver that notifies of important Wi-Fi p2p events.
@@ -62,29 +51,29 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
             int state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
 
             if(state == WifiP2pManager.WIFI_P2P_STATE_ENABLED){
-                Log.d("WiFiDirectBroadcastReceiver - onReceive", "WiFi Enabled!");
+                Log.d("WiFiDirBroadcastRec", "WiFi Enabled!");
                 showToast("WiFi Enabled!");
             }
             else {
-                Log.d("WiFiDirectBroadcastReceiver - onReceive", "WiFi Disabled!");
+                Log.d("WiFiDirBroadcastRec", "WiFi Disabled!");
                 showToast("WiFi Disabled!");
             }
         } else if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(action)) {
             ConnectivityManager cm_a = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork_a = cm_a.getActiveNetworkInfo();
             if (activeNetwork_a != null) {
-                Log.d("WiFiDirectBroadcastReceiver - onReceive", "No active network, requestPeers");
+                Log.d("WiFiDirBroadcastRec", "No active network, requestPeers");
                 if (manager != null) {
                     try {
                         manager.requestPeers(channel, activity.peerListListener);
                     } catch (SecurityException e) {
-                        Log.d("WiFiDirectBroadcastReceiver - onReceive", "NO PERMISSION");
+                        Log.d("WiFiDirBroadcastRec", "NO PERMISSION");
                     }
                 }
             }
         } else if (WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action)) {
             if(manager == null){
-                Log.d("WiFiDirectBroadcastReceiver - onReceive", "manager = null");
+                Log.d("WiFiDirBroadcastRec", "manager = null");
                 return;
             }
             NetworkInfo networkInfo = (NetworkInfo) intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
@@ -109,7 +98,7 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
 //            }
 
         } else if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
-            Log.d("WiFiDirectBroadcastReceiver - onReceive", "WIFI_P2P_THIS_DEVICE_CHANGED_ACTION");
+            Log.d("WiFiDirBroadcastRec", "WIFI_P2P_THIS_DEVICE_CHANGED_ACTION");
         }
 
     }
@@ -121,14 +110,14 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
             final InetAddress groupOwnerAddress = info.groupOwnerAddress;
-            Log.d("Rooms - onConnectionInfoAvailable", info.toString());
+            Log.d("onConnInfoAvailable", info.toString());
             if(info.groupFormed && info.isGroupOwner){
-                Log.d("onConnectionInfoAvailable","Client");
-//                msgText.setText("Host");
+                Log.d("oonConnInfoAvailable","Host");
+                showToast("Host");
             }
             else if (info.groupFormed){
-//                msgText.setText("Client");
-                Log.d("onConnectionInfoAvailable","Client");
+                showToast("Client");
+                Log.d("onConnInfoAvailable","Client");
             }
 
         }
