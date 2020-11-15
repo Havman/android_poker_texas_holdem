@@ -7,7 +7,17 @@
     <string name="handsList">Hands\nList</string>
     <string name="play">Play</string>
     <string name="join">Join</string>
+    <string name="host">Host</string>
     <string name="avatar">Avatar</string>
+    <string name="startHost">Start hosting</string>
+    <string name="hosting">Hosting...</string>
+<!--    <string name="app_name">AndroidNSD</string>-->
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="register_btn">Register</string>
+    <string name="discovery_btn">Discover</string>
+    <string name="say_hello_btn">Say Hello!</string>
+    <string name="devices_not_found_toast">No Service found yet...</string>
 
     <!-- BUTTON CONSTRAINS -->
 

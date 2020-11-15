@@ -13,6 +13,7 @@ public class Card {
     public Card(){
         figure = 1;
         suit = 'A';
+        image = "card_1";
     }
 
     public Card(int _figure, char _suit){
