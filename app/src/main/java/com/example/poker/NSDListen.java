@@ -12,18 +12,16 @@ import android.widget.Toast;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 
 public class NSDListen {
     private static final String TAG = "TrackingFlow";
     private NsdManager mNsdManager;
-    public String mDiscoveryServiceName = "NSDDoEpicCodingListener";
+    public String mDiscoveryServiceName = "PokerServer";
     public String serviceType = "_poker._tcp.";
     private Context mContext;
     private Activity mActivity;
@@ -33,6 +31,9 @@ public class NSDListen {
     private REGISTRATION_STATUS mCurrentRegistrationStatus = REGISTRATION_STATUS.NON_REGISTERED;
     private ThreadHandler threadHandler;
     private Card card = new Card();
+    private Deck deck = new Deck();
+    private Set<String> clientsIP = new HashSet<>();
+
 
     private enum REGISTRATION_STATUS{
         REGISTERED,
@@ -84,6 +85,7 @@ public class NSDListen {
         @Override
         public void onServiceRegistered(NsdServiceInfo NsdServiceInfo) {
             mDiscoveryServiceName = NsdServiceInfo.getServiceName();
+
             Toast.makeText(mContext, "Registered DEVICE!", Toast.LENGTH_LONG).show();
             android.util.Log.e("TrackingFlow", "This device has been registered to be discovered through NSD...:" + mDiscoveryServiceName);
         }
@@ -144,7 +146,9 @@ public class NSDListen {
                         mIsReady = true;
                         mSocketOutput = new DataOutputStream(socket.getOutputStream());
                         mSocketInput = new DataInputStream(socket.getInputStream());
-
+                        Log.e("Socket IP", socket.getInetAddress().toString());
+                        clientsIP.add(socket.getInetAddress().toString());
+                        Log.e("CLIENTS IP", clientsIP.toString());
                         listenForMessages();
 
                         //At this point you can start using the socket
@@ -172,7 +176,6 @@ public class NSDListen {
             byte[] buffer = new byte[bufferSize];
             StringBuilder sb = new StringBuilder();
             int length = Integer.MAX_VALUE;
-
             try {
                 while (length >= bufferSize) {
                     length = mSocketInput.read(buffer);
@@ -188,9 +191,6 @@ public class NSDListen {
                     @Override
                     public void run() {
                         Toast.makeText(mContext, "Message received: " + receivedMessage, Toast.LENGTH_LONG).show();
-                        String [] splittedReceivedMessage = receivedMessage.split(" " );
-                        int resID = mActivity.getResources().getIdentifier(splittedReceivedMessage[splittedReceivedMessage.length - 1] , "drawable", mActivity.getPackageName());
-                        ((ImageView) mActivity.findViewById(R.id.cardPic)).setImageResource(resID);
                     }
                 });
                 mSocketOutput.close();

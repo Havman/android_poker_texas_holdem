@@ -22,12 +22,28 @@
         android:text="@string/join"/>
 
     <Button
+        android:id="@+id/startGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:text="start"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/dealCards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sayHello"
+        android:text="dealCards"
+        android:visibility="gone"/>
+
+    <Button
         android:id="@+id/sayHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/discover"
-        android:text="@string/avatar"
+        android:text="nextCard"
         android:visibility="gone"/>
 
     <ImageView
@@ -38,7 +54,30 @@
         android:scaleType="centerCrop"
         android:layout_marginStart="160dp"
         android:layout_marginTop="296dp"
-        android:background="@drawable/card_3"
+        android:background="@drawable/card"
+        android:contentDescription="@string/aceA" />
+
+    <ImageView
+        android:id="@+id/hand1"
+        android:layout_width="70dp"
+        android:layout_height="120dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/card"
+        android:contentDescription="@string/aceA" />
+
+    <ImageView
+        android:id="@+id/hand2"
+        android:layout_width="70dp"
+        android:layout_height="120dp"
+        android:adjustViewBounds="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop"
+        android:background="@drawable/card"
+        android:layout_toEndOf="@id/hand1"
         android:contentDescription="@string/aceA" />
 
 </RelativeLayout>

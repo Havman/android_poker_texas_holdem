@@ -105,38 +105,72 @@ package com.example.poker;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.media.Image;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 public class Rooms extends Activity {
 
     private NSDListen mNSDListener;
     private NSDDiscover mNSDDiscover;
 
+    private Context context = this;
+    private Activity activity = this;
+
     private Button mRegisterBtn;
     private Button mDiscoverBtn;
     private Button mSayHelloBtn;
+    private Button mStartGameBtn;
+    private Button mDealCardsBtn;
+
+    private ImageView mCard1;
+    private ImageView mCard2;
+
+    private ImageView mCard;
+
+    private Card card1 = new Card();
+    private Card card2 = new Card();
+
+    private Deck deck = new Deck();
+
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void setImageByCard(final ImageView imgView, final Card card) {
+        String img = card.getImage();
+        int resID = getResources().getIdentifier(img , "drawable", getPackageName());
+        imgView.setImageResource(resID);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nsd_activity);
+
+        deck.shuffleDeck();
 
         mNSDListener = new NSDListen(this, this);
         mNSDDiscover = new NSDDiscover(this, mDiscoveryListener, this);
 
-        mRegisterBtn = (Button)findViewById(R.id.register);
+        mRegisterBtn = findViewById(R.id.register);
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mNSDListener.registerDevice();
                 mRegisterBtn.setText(getString(R.string.hosting));
+                findViewById(R.id.startGame).setVisibility(View.VISIBLE);
             }
         });
 
-        mDiscoverBtn = (Button)findViewById(R.id.discover);
+        mDiscoverBtn = findViewById(R.id.discover);
         mDiscoverBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,13 +178,43 @@ public class Rooms extends Activity {
             }
         });
 
-        mSayHelloBtn = (Button)findViewById(R.id.sayHello);
+        mSayHelloBtn = findViewById(R.id.sayHello);
         mSayHelloBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mNSDDiscover.sayHello();
             }
         });
+
+        mStartGameBtn = findViewById(R.id.startGame);
+        mStartGameBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCard.setVisibility(View.VISIBLE);
+                mDiscoverBtn.setVisibility(View.VISIBLE);
+                mDealCardsBtn.setVisibility(View.VISIBLE);
+                mStartGameBtn.setVisibility(View.GONE);
+                mRegisterBtn.setVisibility(View.GONE);
+                mNSDDiscover.discoverServices();
+
+            }
+        });
+
+        mCard1 = findViewById(R.id.hand1);
+        mCard2 = findViewById(R.id.hand2);
+
+        mDealCardsBtn = findViewById(R.id.dealCards);
+        mDealCardsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                card1 = deck.dealCard();
+                card2 = deck.dealCard();
+                setImageByCard(mCard1, card1);
+                setImageByCard(mCard2, card2);
+            }
+        });
+
+        mCard = findViewById(R.id.cardPic);
 
         //Show selection alert dialog...
         new AlertDialog.Builder(this)
@@ -159,6 +223,7 @@ public class Rooms extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mDiscoverBtn.setVisibility(View.GONE);
+                        mCard.setVisibility(View.GONE);
                         dialog.dismiss();
                     }
                 })
@@ -180,7 +245,10 @@ public class Rooms extends Activity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    findViewById(R.id.sayHello).setVisibility(View.VISIBLE);
+                    mDealCardsBtn.setVisibility(View.VISIBLE);
+                    mSayHelloBtn.setVisibility(View.VISIBLE);
+                    mDiscoverBtn.setVisibility(View.GONE);
+                    showToast("Joined");
                 }
             });
         }

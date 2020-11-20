@@ -16,7 +16,7 @@ import java.io.DataOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.util.Arrays;
+
 
 public class NSDDiscover {
 
@@ -30,7 +30,6 @@ public class NSDDiscover {
     private String mHostFound;
     private int mPortFound;
     private DISCOVERY_STATUS mCurrentDiscoveryStatus = DISCOVERY_STATUS.OFF;
-    private SocketConnection socketConnection;
     private Card card = new Card();
 
     private enum DISCOVERY_STATUS{
@@ -61,7 +60,6 @@ public class NSDDiscover {
             showToast("Device not found");
             return;
         }
-
         new SocketConnection().sayHello(mHostFound, mPortFound);
 
     }
