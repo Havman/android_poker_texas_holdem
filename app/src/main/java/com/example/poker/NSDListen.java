@@ -31,7 +31,6 @@ public class NSDListen {
     private SocketServerConnection mSocketServerConnection;
     private ServerSocket mDiscoverableServerSocket;
     private REGISTRATION_STATUS mCurrentRegistrationStatus = REGISTRATION_STATUS.NON_REGISTERED;
-    private ThreadHandler threadHandler;
     private Card card = new Card();
 
     private enum REGISTRATION_STATUS{
@@ -47,7 +46,6 @@ public class NSDListen {
         //Start a thread with the server socket ready to receive connections...
         mSocketServerConnection = new SocketServerConnection();
         mSocketServerConnection.openConnection();
-        threadHandler = new ThreadHandler();
     }
 
     /**
@@ -83,9 +81,6 @@ public class NSDListen {
     private NsdManager.RegistrationListener mRegistrationListener = new NsdManager.RegistrationListener() {
         @Override
         public void onServiceRegistered(NsdServiceInfo NsdServiceInfo) {
-            mDiscoveryServiceName = NsdServiceInfo.getServiceName();
-            Toast.makeText(mContext, "Registered DEVICE!", Toast.LENGTH_LONG).show();
-            android.util.Log.e("TrackingFlow", "This device has been registered to be discovered through NSD...:" + mDiscoveryServiceName);
         }
 
         @Override
@@ -104,7 +99,6 @@ public class NSDListen {
 
     public void shutdown() {
         try {
-            mNsdManager.unregisterService(mRegistrationListener);
             if(mSocketServerConnection != null){
                 mSocketServerConnection.release();
             }

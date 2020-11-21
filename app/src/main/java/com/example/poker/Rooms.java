@@ -110,6 +110,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+
 public class Rooms extends Activity {
 
     private NSDListen mNSDListener;
@@ -119,6 +123,8 @@ public class Rooms extends Activity {
     private Button mDiscoverBtn;
     private Button mSayHelloBtn;
 
+    private Socket socket;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,7 +132,6 @@ public class Rooms extends Activity {
 
         mNSDListener = new NSDListen(this, this);
         mNSDDiscover = new NSDDiscover(this, mDiscoveryListener, this);
-
         mRegisterBtn = (Button)findViewById(R.id.register);
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
