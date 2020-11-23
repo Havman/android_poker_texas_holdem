@@ -75,9 +75,6 @@ public class Card {
          int nr = (Integer.parseInt(this.image.substring(5)) + 1)%53;
          if (nr == 0) nr = 1;
          String nextImage = "card_" + nr;
-         Log.d("getNextCard - fig", "" + nextFigure);
-         Log.d("getNextCard - sut", "" + nextSuit);
-         Log.d("getNextCard - image", nextImage);
 
          this.figure = nextFigure;
          this.suit = (char)nextSuit;
@@ -98,6 +95,6 @@ public class Card {
      @Override
      @SuppressWarnings("NullableProblems")
      public String toString() {
-        return "\nFigure: " + this.figure + " Suit: " + this.suit + " Image: " + this.image;
+        return "Figure: " + this.figure + " Suit: " + this.suit + " Image: " + this.image;
      }
 }

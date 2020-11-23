@@ -27,7 +27,6 @@ public class Deck {
 
     public void shuffleDeck(){
         Collections.shuffle(this.deck);
-        Log.e("DECK: ", deck.toString());
     }
 
     public Card dealCard() {

@@ -28,7 +28,7 @@ public class Game extends AppCompatActivity {
         dealCardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NSDDiscover.sayHello();
+//                NSDDiscover.sayHello();
             }
         });
 
