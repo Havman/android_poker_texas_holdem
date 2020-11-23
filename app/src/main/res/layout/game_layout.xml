@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <Button
+        android:id="@+id/dealCards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deal Cards">
+
+    </Button>
+
+    <ImageView
+        android:id="@+id/hand1"
+        android:layout_width="70dp"
+        android:layout_height="120dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/card"
+        android:contentDescription="@string/aceA" />
+
+    <ImageView
+        android:id="@+id/hand2"
+        android:layout_width="70dp"
+        android:layout_height="120dp"
+        android:adjustViewBounds="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop"
+        android:background="@drawable/card"
+        android:layout_toEndOf="@id/hand1"
+        android:contentDescription="@string/aceA" />
+
+</RelativeLayout>
