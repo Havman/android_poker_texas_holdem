@@ -20,19 +20,6 @@ import java.util.Set;
 
 
 public class NSDListen {
-<<<<<<< HEAD
-    private static final String TAG = "TrackingFlow";
-    private NsdManager mNsdManager;
-    public String mDiscoveryServiceName = "NSDDoEpicCodingListener";
-    public String serviceType = "_poker._tcp.";
-    private Context mContext;
-    private Activity mActivity;
-    private int mSelectedPort = -1;
-    private SocketServerConnection mSocketServerConnection;
-    private ServerSocket mDiscoverableServerSocket;
-    private REGISTRATION_STATUS mCurrentRegistrationStatus = REGISTRATION_STATUS.NON_REGISTERED;
-    private Card card = new Card();
-=======
     static final String TAG = "TrackingFlow";
     NsdManager mNsdManager;
     String mDiscoveryServiceName = "PokerServer";
@@ -46,7 +33,6 @@ public class NSDListen {
     Set<DataInputStream> inputs = new HashSet<>();
     Set<DataOutputStream> outputs = new HashSet<>();
 
->>>>>>> c1b7c08
 
     private enum REGISTRATION_STATUS{
         REGISTERED,
@@ -59,10 +45,6 @@ public class NSDListen {
         this.mNsdManager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
 
         //Start a thread with the server socket ready to receive connections...
-<<<<<<< HEAD
-        mSocketServerConnection = new SocketServerConnection();
-        mSocketServerConnection.openConnection();
-=======
         try {
            openConnectionThread();
         } catch (IOException e) {
@@ -72,7 +54,6 @@ public class NSDListen {
 
     public void showToast(String message) {
         Toast.makeText(this.mContext, message, Toast.LENGTH_SHORT).show();
->>>>>>> c1b7c08
     }
 
     /**
@@ -101,13 +82,10 @@ public class NSDListen {
     private NsdManager.RegistrationListener mRegistrationListener = new NsdManager.RegistrationListener() {
         @Override
         public void onServiceRegistered(NsdServiceInfo NsdServiceInfo) {
-<<<<<<< HEAD
-=======
             mDiscoveryServiceName = NsdServiceInfo.getServiceName();
 
             Toast.makeText(mContext, "Registered DEVICE!", Toast.LENGTH_LONG).show();
             android.util.Log.e("TrackingFlow", "This device has been registered to be discovered through NSD...:" + mDiscoveryServiceName);
->>>>>>> c1b7c08
         }
 
         @Override
@@ -126,15 +104,8 @@ public class NSDListen {
 
     public void shutdown() {
         try {
-<<<<<<< HEAD
-            if(mSocketServerConnection != null){
-                mSocketServerConnection.release();
-            }
-        }catch (Exception e){e.printStackTrace();}
-=======
             mNsdManager.unregisterService(mRegistrationListener);
         } catch (Exception e){e.printStackTrace();}
->>>>>>> c1b7c08
     }
 
 

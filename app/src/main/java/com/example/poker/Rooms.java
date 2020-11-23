@@ -124,10 +124,6 @@ import org.json.JSONObject;
 
 import java.util.Collections;
 
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
-
 public class Rooms extends Activity {
 
     private NSDListen mNSDListener;
@@ -168,18 +164,11 @@ public class Rooms extends Activity {
         imgView.setImageResource(resID);
     }
 
-    private Socket socket;
-
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nsd_activity);
 
-<<<<<<< HEAD
-        mNSDListener = new NSDListen(this, this);
-        mNSDDiscover = new NSDDiscover(this, mDiscoveryListener, this);
-        mRegisterBtn = (Button)findViewById(R.id.register);
-=======
         deck.shuffleDeck();
 
         new AlertDialog.Builder(this)
@@ -205,7 +194,6 @@ public class Rooms extends Activity {
                 .show();
 
         mRegisterBtn = findViewById(R.id.register);
->>>>>>> c1b7c08
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
