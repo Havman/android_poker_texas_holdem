@@ -61,26 +61,26 @@ public class Card {
          return new Card(figure, (char)suit);
      }
 
-     public final Card getNextCard() {
-         int nextFigure = this.figure;
-
-         int nextSuit = ((int)this.suit) + 1;
-         if (this.suit == 'D')  {
-             nextFigure = this.figure + 1;
-             nextSuit = 65;
-         }
-
-         if (this.figure == 14) nextFigure = 1;
-
-         int nr = (Integer.parseInt(this.image.substring(5)) + 1)%53;
-         if (nr == 0) nr = 1;
-         String nextImage = "card_" + nr;
-
-         this.figure = nextFigure;
-         this.suit = (char)nextSuit;
-         this.image = nextImage;
-         return this;
-     }
+//     public final Card getNextCard() {
+//         int nextFigure = this.figure;
+//
+//         int nextSuit = ((int)this.suit) + 1;
+//         if (this.suit == 'D')  {
+//             nextFigure = this.figure + 1;
+//             nextSuit = 65;
+//         }
+//
+//         if (this.figure == 14) nextFigure = 1;
+//
+//         int nr = (Integer.parseInt(this.image.substring(5)) + 1)%53;
+//         if (nr == 0) nr = 1;
+//         String nextImage = "card_" + nr;
+//
+//         this.figure = nextFigure;
+//         this.suit = (char)nextSuit;
+//         this.image = nextImage;
+//         return this;
+//     }
 
      @Override
      public boolean equals(Object object){

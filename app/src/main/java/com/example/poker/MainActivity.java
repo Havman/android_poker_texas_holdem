@@ -19,8 +19,6 @@ public class MainActivity extends Activity {
     Button cardGalleryButton;
     Button playButton;
 
-    Button testButton;
-
     Camera camera = new Camera(this);
 
     private void initialize() {
@@ -31,7 +29,6 @@ public class MainActivity extends Activity {
         cameraButton = findViewById(R.id.cameraButton);
         cardGalleryButton = findViewById(R.id.cardGallery);
         playButton = findViewById(R.id.playButton);
-        testButton = findViewById(R.id.testButton);
     }
 
     @Override
@@ -64,10 +61,6 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    public void goToTest(){
-        Intent intent = new Intent(this, Test.class);
-        startActivity(intent);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,13 +87,6 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 goToRooms();
-            }
-        });
-
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToTest();
             }
         });
 

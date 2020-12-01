@@ -5,9 +5,14 @@ import android.widget.ImageView;
 
 import org.json.JSONObject;
 
+import java.io.DataOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class RegexHandler {
 
-    public String decodeMsg(NSDListen listener, JSONObject jsonResponse){
+    public String decodeMsg(Server server, JSONObject jsonResponse){
         String msg;
         try{
             msg = (String) jsonResponse.get("Message");
@@ -15,6 +20,16 @@ public class RegexHandler {
                 case "Info":
                     Log.e("RegexHandler", msg);
                     break;
+                case "StartGame":
+                    int numOfClients = server.outputs.size();
+                    String newMsg = "";
+                    for (int i=0; i<numOfClients; i++){
+                        Card[] hand = server.deck.getHand();
+                        newMsg += hand[0].getImage() + " " + hand[1].getImage() + ";";
+                    }
+                    jsonResponse.remove("Message");
+                    jsonResponse.put("Message", newMsg);
+                    return jsonResponse.toString();
                 default:
                     return jsonResponse.toString();
             }
@@ -25,36 +40,42 @@ public class RegexHandler {
         return "";
     }
 
-    public String decodeResponse(final NSDDiscover discover, JSONObject jsonResponse){
-        String msg;
+    public String decodeResponse(final Client client, JSONObject jsonResponse){
+        final String msg;
         String[] splitMessage;
-        final int resID, resID1, resID2;
+        final int communityCard1ResID, communityCard2ResID, communityCard3ResID,
+                    communityCard4ResID, communityCard5ResID;
         try{
             msg = (String) jsonResponse.get("Message");
             switch ( (String) jsonResponse.get("About") ){
                 case "Info":
-                    discover.showToast(msg);
+                    client.showToast(msg);
                     break;
-                case "NextCard":
-                    splitMessage = msg.split(" ");
-                    resID = discover.mActivity.getResources().getIdentifier(splitMessage[splitMessage.length - 1], "drawable", discover.mActivity.getPackageName());
-                    discover.mActivity.runOnUiThread(new Runnable() {
+                case "StartGame":
+                    client.mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ((ImageView) discover.mActivity.findViewById(R.id.cardPic)).setImageResource(resID);
+                            Log.e("MSG", msg);
+                            String [] tmpMsg = msg.split(";");
+                            client.setHandImg(tmpMsg[0]);
+                            client.setCoins(tmpMsg[1]);
                         }
                     });
                     break;
-                case "DealCard":
-                    splitMessage = msg.split(" ");
-                    resID1 = discover.mActivity.getResources().getIdentifier(splitMessage[splitMessage.length - 7], "drawable", discover.mActivity.getPackageName());
-                    resID2 = discover.mActivity.getResources().getIdentifier(splitMessage[splitMessage.length - 1], "drawable", discover.mActivity.getPackageName());
-                    Log.e("ESSA", String.valueOf( resID1));
-                    discover.mActivity.runOnUiThread(new Runnable() {
+                case "Even":
+                    client.mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ((ImageView) discover.mActivity.findViewById(R.id.hand1)).setImageResource(resID1);
-                            ((ImageView) discover.mActivity.findViewById(R.id.hand2)).setImageResource(resID2);
+                            Log.e("MSG", msg);
+                            client.setWageredCoins(msg);
+                        }
+                    });
+                    break;
+                case "Visibility":
+                    client.mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            client.setButtons(msg, true);
                         }
                     });
                     break;

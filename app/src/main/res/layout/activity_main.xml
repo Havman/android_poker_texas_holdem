@@ -8,19 +8,19 @@
     android:background="@drawable/background"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/testButton"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:background="@drawable/round_button"
-        android:text="Test"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+<!--    <Button-->
+<!--        android:id="@+id/testButton"-->
+<!--        android:layout_width="60dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="@drawable/round_button"-->
+<!--        android:text="Test"-->
+<!--        android:textColor="@color/black"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.5" />-->
 
     <Button
         android:id="@+id/cameraButton"

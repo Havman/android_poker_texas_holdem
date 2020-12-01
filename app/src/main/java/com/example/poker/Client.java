@@ -2,11 +2,13 @@ package com.example.poker;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
-import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -15,13 +17,10 @@ import java.io.IOException;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
 
 
-public class NSDDiscover {
+public class Client {
 
     public static final String TAG = "TrackingFlow";
     String mDiscoveryServiceName = "NSDDoEpicCodingDiscover";
@@ -35,18 +34,80 @@ public class NSDDiscover {
     int serverPort;
     SocketConnection connection;
     DISCOVERY_STATUS mCurrentDiscoveryStatus = DISCOVERY_STATUS.OFF;
-    Card card = new Card();
+    int balance = 1000;
+    int allCoinsInRound = 0;
+    int myCoinsInRound = 0;
+    int toEven = 0;
 
     private enum DISCOVERY_STATUS{
         ON,
         OFF
     }
 
-    public NSDDiscover(Context context, DiscoveryListener listener, Activity activity) {
+    public Client(Context context, DiscoveryListener listener, Activity activity) {
         this.mContext = context;
         this.mActivity = activity;
         this.mListener = listener;
         this.mNsdManager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
+    }
+
+    public void setHandImg(String imageStr){
+        String[] images = imageStr.split(" ");
+        int resID1 = mActivity.getResources().getIdentifier(images[0], "drawable", mActivity.getPackageName());
+        ((ImageView) mActivity.findViewById(R.id.hand1)).setImageResource(resID1);
+        int resID2 = mActivity.getResources().getIdentifier(images[1], "drawable", mActivity.getPackageName());
+        ((ImageView) mActivity.findViewById(R.id.hand2)).setImageResource(resID2);
+    }
+
+    public void setWageredCoins(String msg) {
+        allCoinsInRound += Integer.parseInt(msg);
+        ((TextView) mActivity.findViewById(R.id.wageredCoins)).setText(String.valueOf(allCoinsInRound));
+    }
+
+    public void setCoinsTxt(){
+        ((TextView) mActivity.findViewById(R.id.toEven)).setText(String.valueOf(toEven));
+        ((TextView) mActivity.findViewById(R.id.balance)).setText(String.valueOf(balance));
+        ((TextView) mActivity.findViewById(R.id.coinsInRound)).setText(String.valueOf(myCoinsInRound));
+    }
+
+    public void setCoins(String str) {
+        String [] splitStr = str.split(",");
+        int myWage = Integer.parseInt(splitStr[0]);
+        balance -= myWage;
+        myCoinsInRound += myWage;
+        allCoinsInRound += Integer.parseInt(splitStr[1]);
+        toEven = Integer.parseInt(splitStr[2]) - myCoinsInRound;
+        setCoinsTxt();
+        ((TextView) mActivity.findViewById(R.id.wageredCoins)).setText(splitStr[1]);
+    }
+
+    public void setButtons(String msg, Boolean isVisible) {
+        if(isVisible) {
+            mActivity.findViewById(R.id.even).setVisibility(View.VISIBLE);
+            mActivity.findViewById(R.id.raise).setVisibility(View.VISIBLE);
+            mActivity.findViewById(R.id.pass).setVisibility(View.VISIBLE);
+
+            if (msg.equals("wait")) {
+                mActivity.findViewById(R.id.wait).setVisibility(View.VISIBLE);
+            }
+        }
+        else {
+            mActivity.findViewById(R.id.even).setVisibility(View.GONE);
+            mActivity.findViewById(R.id.raise).setVisibility(View.GONE);
+            mActivity.findViewById(R.id.pass).setVisibility(View.GONE);
+
+            if (msg.equals("wait")) {
+                mActivity.findViewById(R.id.wait).setVisibility(View.GONE);
+
+            }
+        }
+    }
+
+    public void evenCoins() {
+        balance -= toEven;
+        myCoinsInRound += toEven;
+        toEven = 0;
+        setCoinsTxt();
     }
 
     public void showToast(String message) {
@@ -72,7 +133,7 @@ public class NSDDiscover {
         }
     }
 
-    public void sayHello(String msg) throws Exception {
+    public void sendMessage(String msg) throws Exception {
         if (connection == null) {
             startConnection();
         }
@@ -165,7 +226,7 @@ public class NSDDiscover {
                             while (true) {
                                 int length = in.read(buffer);
                                 final JSONObject receivedJson = new JSONObject(new String(buffer, 0, length));
-                                regexHandler.decodeResponse(NSDDiscover.this, receivedJson);
+                                regexHandler.decodeResponse(Client.this, receivedJson);
                                 Log.e("Client: msgGot", receivedJson.toString());
                             }
                         } catch (Exception e) {

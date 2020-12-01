@@ -5,7 +5,7 @@
     android:background="@drawable/background">
 
     <Button
-        android:id="@+id/dealCards"
+        android:id="@+id/startGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Deal Cards">

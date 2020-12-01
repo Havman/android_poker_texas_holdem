@@ -107,45 +107,46 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.media.Image;
-import android.net.wifi.p2p.WifiP2pManager;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-
-import java.util.Collections;
+import androidx.annotation.UiThread;
 
 public class Rooms extends Activity {
 
-    private NSDListen mNSDListener;
-    private NSDDiscover mNSDDiscover;
+    private Server mNSDListener;
+    private Client mClient;
 
     private Context context = this;
     private Activity activity = this;
 
     private Button mRegisterBtn;
     private Button mDiscoverBtn;
-    private Button mSayHelloBtn;
-    private Button mStartGameBtn;
-    private Button mDealCardsBtn;
+    private Button joinAsClientBtn;
+    private Button startGameBtn;
+
+    private Button waitBtn;
+    private Button evenBtn;
+    private Button raiseBtn;
+    private Button passBtn;
+
+    private TextView balanceTxt;
+    private TextView toEven;
+    private TextView coinsInRound;
+
+    private int balance = 1000;
 
     private String msg;
 
-    private JSONObject reader;
+    private ImageView communityCard1, communityCard2,
+            communityCard3, communityCard4, communityCard5;
 
-    private ImageView mCard1;
-    private ImageView mCard2;
-
-    private ImageView mCard;
+    private Card[] communityCards = new Card[5];
+    private Card[] hand = new Card[2];
 
     private Card card = new Card();
 
@@ -164,6 +165,13 @@ public class Rooms extends Activity {
         imgView.setImageResource(resID);
     }
 
+    public void showThreeCommunityCards() {
+        communityCard1.setVisibility(View.VISIBLE);
+        communityCard2.setVisibility(View.VISIBLE);
+        communityCard3.setVisibility(View.VISIBLE);
+    }
+
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,21 +179,22 @@ public class Rooms extends Activity {
 
         deck.shuffleDeck();
 
+        communityCards = deck.getCommunityCards();
+
         new AlertDialog.Builder(this)
                 .setMessage("Select if you want to host or join a game")
                 .setPositiveButton(getString(R.string.host), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mNSDListener = new NSDListen(context, activity);
+                        mNSDListener = new Server(context, activity);
                         mDiscoverBtn.setVisibility(View.GONE);
-                        mCard.setVisibility(View.GONE);
                         dialog.dismiss();
                     }
                 })
                 .setNegativeButton(getString(R.string.join), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mNSDDiscover = new NSDDiscover(context, mDiscoveryListener, activity);
+                        mClient = new Client(context, mDiscoveryListener, activity);
                         mRegisterBtn.setVisibility(View.GONE);
                         dialog.dismiss();
                     }
@@ -193,13 +202,19 @@ public class Rooms extends Activity {
                 .setCancelable(false)
                 .show();
 
+        communityCard1 = findViewById(R.id.communityCardPic1);
+        communityCard2 = findViewById(R.id.communityCardPic2);
+        communityCard3 = findViewById(R.id.communityCardPic3);
+        communityCard4 = findViewById(R.id.communityCardPic4);
+        communityCard5 = findViewById(R.id.communityCardPic5);
+
         mRegisterBtn = findViewById(R.id.register);
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mNSDListener.registerDevice();
                 mRegisterBtn.setText(getString(R.string.hosting));
-                findViewById(R.id.startGame).setVisibility(View.VISIBLE);
+                findViewById(R.id.joinAsClient).setVisibility(View.VISIBLE);
             }
         });
 
@@ -207,77 +222,72 @@ public class Rooms extends Activity {
         mDiscoverBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mNSDDiscover.discoverServices();
+                mClient.discoverServices();
             }
         });
 
-        mSayHelloBtn = findViewById(R.id.sayHello);
-        mSayHelloBtn.setOnClickListener(new View.OnClickListener() {
+        balanceTxt = findViewById(R.id.balance);
+        startGameBtn = findViewById(R.id.startGame);
+        startGameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    msg = "{'Type': 'Multi', 'About': 'NextCard', 'Message': '" + card.getNextCard().toString() + "'}";
-                    mNSDDiscover.sayHello(msg);
+                    msg = "{'Type': 'Server', 'About': 'StartGame', 'Message': ''}" ;
+                    mClient.sendMessage(msg);
+                    startGameBtn.setVisibility(View.GONE);
+                    balanceTxt.setText(String.valueOf(balance));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
 
-
-
-        mCard1 = findViewById(R.id.hand1);
-        mCard2 = findViewById(R.id.hand2);
-
-        mDealCardsBtn = findViewById(R.id.dealCards);
-        mDealCardsBtn.setOnClickListener(new View.OnClickListener() {
+        joinAsClientBtn = findViewById(R.id.joinAsClient);
+        joinAsClientBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                card1 = deck.dealCard();
-                card2 = deck.dealCard();
-                try {
-                    msg = "{'Type': 'Solo', 'About': 'DealCard', 'Message': '" + card1.toString() + " " + card2.toString() + "'}" ;
-                    mNSDDiscover.sayHello(msg);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        mCard = findViewById(R.id.cardPic);
-
-        //Show selection alert dialog...
-
-
-        mStartGameBtn = findViewById(R.id.startGame);
-        mStartGameBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCard.setVisibility(View.VISIBLE);
                 mDiscoverBtn.setVisibility(View.VISIBLE);
-                mDealCardsBtn.setVisibility(View.VISIBLE);
-                mStartGameBtn.setVisibility(View.GONE);
+                joinAsClientBtn.setVisibility(View.GONE);
                 mRegisterBtn.setVisibility(View.GONE);
-                mNSDDiscover = new NSDDiscover(context, mDiscoveryListener, activity);
-                mNSDDiscover.discoverServices();
+                startGameBtn.setVisibility(View.VISIBLE);
+                mClient = new Client(context, mDiscoveryListener, activity);
+                mClient.discoverServices();
+            }
+        });
+
+        String checkNextMsg = "{'Type': 'Multi', 'About': 'Check', 'Message': ''}";
+
+
+        toEven = findViewById(R.id.toEven);
+        coinsInRound = findViewById(R.id.coinsInRound);
+        evenBtn = findViewById(R.id.even);
+        evenBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    msg = "{'Type': 'Multi', 'About': 'Even', 'Message': '" + toEven.getText() + "'}";
+                    mClient.evenCoins();
+                    mClient.sendMessage(msg);
+                    mClient.setButtons("wait", false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    private NSDDiscover.DiscoveryListener mDiscoveryListener = new NSDDiscover.DiscoveryListener() {
+    private Client.DiscoveryListener mDiscoveryListener = new Client.DiscoveryListener() {
         @Override
         public void serviceDiscovered(String host, int port) {
             //This callback is on a worker thread...
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mDealCardsBtn.setVisibility(View.VISIBLE);
-                    mSayHelloBtn.setVisibility(View.VISIBLE);
                     mDiscoverBtn.setVisibility(View.GONE);
                     showToast("Connected");
                     try {
                         msg = "{'Type': 'Solo', 'About': 'Info', 'Message': 'Connected'}";
-                        mNSDDiscover.sayHello(msg);
+                        mClient.sendMessage(msg);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -290,6 +300,6 @@ public class Rooms extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         mNSDListener.shutdown();
-        mNSDDiscover.shutdown();
+        mClient.shutdown();
     }
 }
