@@ -43,13 +43,12 @@ public class Deck {
         return hand;
     }
 
-    public Card[] getCommunityCards() {
-        Card[] communityCards = new Card[5];
+    public Card[] getThreeCards() {
+        Card[] communityCards = new Card[3];
         communityCards[0] = pullCard();
         communityCards[1] = pullCard();
         communityCards[2] = pullCard();
-        communityCards[3] = pullCard();
-        communityCards[4] = pullCard();
         return communityCards;
     }
+
 }

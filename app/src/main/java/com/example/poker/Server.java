@@ -17,8 +17,11 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -35,14 +38,20 @@ public class Server {
     RegexHandler regexHandler = new RegexHandler();
     Set<DataInputStream> inputs = new HashSet<>();
     Set<DataOutputStream> outputs = new HashSet<>();
+
+    Map<DataOutputStream, Boolean> isEvenMap = new HashMap<>();
+
     Deck deck = new Deck();
     int clientTurnID = 0;
     int startingCoins = 1000;
     int coinsToEven = 0;
     int allWageredCoins = 0;
-
+    Card[] communityCards;
+    String threeCardMsg = "";
     int smallBlind = 5;
     int bigBlind = 10;
+
+    int roundNumber = 0;
 
     private enum REGISTRATION_STATUS{
         REGISTERED,
@@ -51,10 +60,13 @@ public class Server {
 
     public Server(Context context, Activity activity){
         deck.shuffleDeck();
+        communityCards = deck.getThreeCards();
         this.mContext = context;
         this.mActivity = activity;
         this.mNsdManager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
-
+        for(Card c : communityCards){
+            threeCardMsg += c.getImage() + ";";
+        }
         //Start a thread with the server socket ready to receive connections...
         try {
            openConnectionThread();
@@ -151,45 +163,49 @@ public class Server {
                                         Log.e("Server: msgGot", receivedJson.toString());
                                         String msg = regexHandler.decodeMsg(Server.this, receivedJson);
                                         Log.e("Server: msgSent", receivedJson.toString());
-
                                         if (msgType.equals("Solo")){
                                             socketOutput.write(msg.getBytes());
                                         }
                                         else if(msgType.equals("Server")){
+                                            roundNumber = 0;
                                             outputsList = new ArrayList<>(outputs);
                                             int i;
                                             coinsToEven = 10;
                                             String tmpMsg = (String) receivedJson.get("Message");
                                             String[] tmpHand = tmpMsg.split(";");
                                             for (i=0; i<outputsList.size(); i++) {
+                                                if(i != 1)
+                                                    isEvenMap.put(outputsList.get(i), false);
                                                 if (i == 0)
-                                                    msg = msg.replace(tmpMsg, tmpHand[i] + ';'+smallBlind+",15,10");
-                                                else if (i == 1)
-                                                    msg = msg.replace(tmpMsg, tmpHand[i] + ';'+bigBlind+",15,10");
+                                                    msg = msg.replace(tmpMsg, tmpHand[i] + ';' + smallBlind + ",15,10");
+                                                else if (i == 1) {
+                                                    isEvenMap.put(outputsList.get(i), true);
+                                                    msg = msg.replace(tmpMsg, tmpHand[i] + ';' + bigBlind + ",15,10");
+                                                }
                                                 else
                                                     msg = msg.replace(tmpMsg, tmpHand[i] + ";0,15,10");
                                                 tmpMsg = tmpHand[i];
-                                                Log.e("MSG", msg);
                                                 outputsList.get(i).write(msg.getBytes());
                                                 outputsList.get(i).flush();
                                             }
                                             clientTurnID = (i)%outputs.size();
                                             outputsList.get(clientTurnID).write("{'Type': 'Solo', 'About': 'Visibility', 'Message': 'noWait'}".getBytes());
                                             outputsList.get(clientTurnID).flush();
-                                            Log.e("GOWNO JEBANE", outputsList.toString());
-                                            Log.e("SIZE1: ", "" + clientTurnID + "   " +outputsList.size());
                                         }
                                         else{
                                             outputsList = new ArrayList<>(outputs);
-                                            clientTurnID = (clientTurnID + 1 ) % outputs.size();
+                                            Log.e("Client Turn:", String.valueOf(clientTurnID));
+                                            clientTurnID = (clientTurnID+outputs.size())%outputs.size();
+                                            Log.e("Client Turn:", String.valueOf(clientTurnID));
+                                            isEvenMap.put(outputsList.get(clientTurnID), true);
+                                            clientTurnID += 1;
+                                            clientTurnID %= outputs.size();
                                             for (DataOutputStream output : outputs) {
                                                 output.write(msg.getBytes());
                                                 output.flush();
                                             }
-                                            Log.e("GOWNO JEBANE", outputsList.toString());
                                             outputsList.get(clientTurnID).write("{'Type': 'Solo', 'About': 'Visibility', 'Message': 'noWait'}".getBytes());
                                             outputsList.get(clientTurnID).flush();
-                                            Log.e("SIZE2: ", "" + clientTurnID + "    " + outputsList.size());
                                         }
                                     }
                                 } catch (Exception e) {

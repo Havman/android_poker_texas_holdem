@@ -38,6 +38,8 @@ public class Client {
     int allCoinsInRound = 0;
     int myCoinsInRound = 0;
     int toEven = 0;
+    Boolean isEven = false;
+
 
     private enum DISCOVERY_STATUS{
         ON,
@@ -57,6 +59,16 @@ public class Client {
         ((ImageView) mActivity.findViewById(R.id.hand1)).setImageResource(resID1);
         int resID2 = mActivity.getResources().getIdentifier(images[1], "drawable", mActivity.getPackageName());
         ((ImageView) mActivity.findViewById(R.id.hand2)).setImageResource(resID2);
+    }
+
+    public void setThreeCardsImg(String msg) {
+        String[] commCards = msg.split(";");
+        int resID1 = mActivity.getResources().getIdentifier(commCards[0], "drawable", mActivity.getPackageName());
+        ((ImageView) mActivity.findViewById(R.id.communityCardPic1)).setImageResource(resID1);
+        int resID2 = mActivity.getResources().getIdentifier(commCards[1], "drawable", mActivity.getPackageName());
+        ((ImageView) mActivity.findViewById(R.id.communityCardPic2)).setImageResource(resID2);
+        int resID3 = mActivity.getResources().getIdentifier(commCards[2], "drawable", mActivity.getPackageName());
+        ((ImageView) mActivity.findViewById(R.id.communityCardPic3)).setImageResource(resID3);
     }
 
     public void setWageredCoins(String msg) {
@@ -79,6 +91,14 @@ public class Client {
         toEven = Integer.parseInt(splitStr[2]) - myCoinsInRound;
         setCoinsTxt();
         ((TextView) mActivity.findViewById(R.id.wageredCoins)).setText(splitStr[1]);
+    }
+
+    public boolean setIsEven(){
+        if(toEven == 0)
+            this.isEven = true;
+        else
+            this.isEven = false;
+        return this.isEven;
     }
 
     public void setButtons(String msg, Boolean isVisible) {
@@ -107,6 +127,7 @@ public class Client {
         balance -= toEven;
         myCoinsInRound += toEven;
         toEven = 0;
+        setIsEven();
         setCoinsTxt();
     }
 

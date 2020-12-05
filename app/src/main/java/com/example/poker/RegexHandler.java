@@ -9,6 +9,7 @@ import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class RegexHandler {
 
@@ -29,6 +30,20 @@ public class RegexHandler {
                     }
                     jsonResponse.remove("Message");
                     jsonResponse.put("Message", newMsg);
+                    return jsonResponse.toString();
+                case "ThreeCards":
+                    server.clientTurnID -= 1;
+                    boolean nextRound = true;
+                    for (Map.Entry<DataOutputStream, Boolean> entry : server.isEvenMap.entrySet()) {
+                        if (!entry.getValue())
+                            nextRound = false;
+                    }
+                    if(nextRound){
+                        server.roundNumber += 1;
+
+                        jsonResponse.remove("Message");
+                        jsonResponse.put("Message", server.threeCardMsg);
+                    }
                     return jsonResponse.toString();
                 default:
                     return jsonResponse.toString();
@@ -55,7 +70,6 @@ public class RegexHandler {
                     client.mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.e("MSG", msg);
                             String [] tmpMsg = msg.split(";");
                             client.setHandImg(tmpMsg[0]);
                             client.setCoins(tmpMsg[1]);
@@ -66,7 +80,6 @@ public class RegexHandler {
                     client.mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.e("MSG", msg);
                             client.setWageredCoins(msg);
                         }
                     });
@@ -76,6 +89,14 @@ public class RegexHandler {
                         @Override
                         public void run() {
                             client.setButtons(msg, true);
+                        }
+                    });
+                    break;
+                case "ThreeCards":
+                    client.mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            client.setThreeCardsImg(msg);
                         }
                     });
                     break;

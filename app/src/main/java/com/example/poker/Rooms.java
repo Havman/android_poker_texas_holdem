@@ -142,19 +142,6 @@ public class Rooms extends Activity {
 
     private String msg;
 
-    private ImageView communityCard1, communityCard2,
-            communityCard3, communityCard4, communityCard5;
-
-    private Card[] communityCards = new Card[5];
-    private Card[] hand = new Card[2];
-
-    private Card card = new Card();
-
-    private Card card1 = new Card();
-    private Card card2 = new Card();
-
-    private Deck deck = new Deck();
-
     public void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
@@ -165,21 +152,11 @@ public class Rooms extends Activity {
         imgView.setImageResource(resID);
     }
 
-    public void showThreeCommunityCards() {
-        communityCard1.setVisibility(View.VISIBLE);
-        communityCard2.setVisibility(View.VISIBLE);
-        communityCard3.setVisibility(View.VISIBLE);
-    }
-
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nsd_activity);
-
-        deck.shuffleDeck();
-
-        communityCards = deck.getCommunityCards();
 
         new AlertDialog.Builder(this)
                 .setMessage("Select if you want to host or join a game")
@@ -201,12 +178,6 @@ public class Rooms extends Activity {
                 })
                 .setCancelable(false)
                 .show();
-
-        communityCard1 = findViewById(R.id.communityCardPic1);
-        communityCard2 = findViewById(R.id.communityCardPic2);
-        communityCard3 = findViewById(R.id.communityCardPic3);
-        communityCard4 = findViewById(R.id.communityCardPic4);
-        communityCard5 = findViewById(R.id.communityCardPic5);
 
         mRegisterBtn = findViewById(R.id.register);
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
@@ -255,7 +226,7 @@ public class Rooms extends Activity {
             }
         });
 
-        String checkNextMsg = "{'Type': 'Multi', 'About': 'Check', 'Message': ''}";
+        final String checkNextMsg = "{'Type': 'Multi', 'About': 'Check', 'Message': ''}";
 
 
         toEven = findViewById(R.id.toEven);
@@ -269,6 +240,7 @@ public class Rooms extends Activity {
                     mClient.evenCoins();
                     mClient.sendMessage(msg);
                     mClient.setButtons("wait", false);
+                    mClient.sendMessage("{'Type': 'Multi', 'About': 'ThreeCards', 'Message': ''}");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
