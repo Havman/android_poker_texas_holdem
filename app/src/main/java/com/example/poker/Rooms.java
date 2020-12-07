@@ -239,8 +239,23 @@ public class Rooms extends Activity {
                     msg = "{'Type': 'Multi', 'About': 'Even', 'Message': '" + toEven.getText() + "'}";
                     mClient.evenCoins();
                     mClient.sendMessage(msg);
-                    mClient.setButtons("wait", false);
-                    mClient.sendMessage("{'Type': 'Multi', 'About': 'ThreeCards', 'Message': ''}");
+                    mClient.setButtons(false);
+                    mClient.sendMessage("{'Type': 'Multi', 'About': 'NextRound', 'Message': ''}");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        waitBtn = findViewById(R.id.wait);
+        waitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    msg = "{'Type': 'Multi', 'About': 'Wait', 'Message': ''}";
+                    mClient.sendMessage(msg);
+                    mClient.setButtons(false);
+                    mClient.sendMessage("{'Type': 'Multi', 'About': 'NextRound', 'Message': ''}");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

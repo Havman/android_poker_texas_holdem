@@ -31,18 +31,35 @@ public class RegexHandler {
                     jsonResponse.remove("Message");
                     jsonResponse.put("Message", newMsg);
                     return jsonResponse.toString();
-                case "ThreeCards":
+                case "NextRound":
                     server.clientTurnID -= 1;
                     boolean nextRound = true;
+                    int roundNumber;
                     for (Map.Entry<DataOutputStream, Boolean> entry : server.isEvenMap.entrySet()) {
                         if (!entry.getValue())
                             nextRound = false;
                     }
                     if(nextRound){
-                        server.roundNumber += 1;
-
                         jsonResponse.remove("Message");
-                        jsonResponse.put("Message", server.threeCardMsg);
+                        jsonResponse.remove("About");
+                        roundNumber = server.roundNumber;
+                        if(roundNumber == 0) {
+                            jsonResponse.put("About", "ThreeCards");
+                            jsonResponse.put("Message", server.threeCardMsg);
+                        }
+                        if(roundNumber == 1){
+                            jsonResponse.put("About", "FourthCard");
+                            jsonResponse.put("Message", server.fourthCard.getImage());
+                        }
+                        if(roundNumber == 2){
+                            jsonResponse.put("About", "FifthCard");
+                            jsonResponse.put("Message", server.fifthCard.getImage());
+                        }
+                        if(roundNumber == 3){
+                            jsonResponse.put("About", "LastRound");
+                            jsonResponse.put("Message", "Msg");
+                        }
+                        server.roundNumber += 1;
                     }
                     return jsonResponse.toString();
                 default:
@@ -55,11 +72,8 @@ public class RegexHandler {
         return "";
     }
 
-    public String decodeResponse(final Client client, JSONObject jsonResponse){
+    public void decodeResponse(final Client client, JSONObject jsonResponse){
         final String msg;
-        String[] splitMessage;
-        final int communityCard1ResID, communityCard2ResID, communityCard3ResID,
-                    communityCard4ResID, communityCard5ResID;
         try{
             msg = (String) jsonResponse.get("Message");
             switch ( (String) jsonResponse.get("About") ){
@@ -88,7 +102,7 @@ public class RegexHandler {
                     client.mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            client.setButtons(msg, true);
+                            client.setButtons(true);
                         }
                     });
                     break;
@@ -97,6 +111,25 @@ public class RegexHandler {
                         @Override
                         public void run() {
                             client.setThreeCardsImg(msg);
+                            client.setNextRound();
+                        }
+                    });
+                    break;
+                case "FourthCard":
+                    client.mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            client.setFourthCard(msg);
+                            client.setNextRound();
+                        }
+                    });
+                    break;
+                case "FifthCard":
+                    client.mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            client.setFifthCard(msg);
+                            client.setNextRound();
                         }
                     });
                     break;
@@ -105,6 +138,5 @@ public class RegexHandler {
         catch (Exception e){
             e.printStackTrace();
         }
-        return "";
     }
 }

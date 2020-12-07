@@ -7,6 +7,7 @@ import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,10 +36,12 @@ public class Client {
     SocketConnection connection;
     DISCOVERY_STATUS mCurrentDiscoveryStatus = DISCOVERY_STATUS.OFF;
     int balance = 1000;
+    int coinsInGame = 0;
     int allCoinsInRound = 0;
     int myCoinsInRound = 0;
     int toEven = 0;
     Boolean isEven = false;
+
 
 
     private enum DISCOVERY_STATUS{
@@ -61,6 +64,14 @@ public class Client {
         ((ImageView) mActivity.findViewById(R.id.hand2)).setImageResource(resID2);
     }
 
+    public void setNextRound() {
+        coinsInGame += allCoinsInRound;
+        toEven = 0;
+        myCoinsInRound = 0;
+        allCoinsInRound = 0;
+        setCoinsTxt();
+    }
+
     public void setThreeCardsImg(String msg) {
         String[] commCards = msg.split(";");
         int resID1 = mActivity.getResources().getIdentifier(commCards[0], "drawable", mActivity.getPackageName());
@@ -69,6 +80,17 @@ public class Client {
         ((ImageView) mActivity.findViewById(R.id.communityCardPic2)).setImageResource(resID2);
         int resID3 = mActivity.getResources().getIdentifier(commCards[2], "drawable", mActivity.getPackageName());
         ((ImageView) mActivity.findViewById(R.id.communityCardPic3)).setImageResource(resID3);
+    }
+
+    public void setFourthCard(String msg) {
+        Log.e("FOURTH", msg);
+        int resID1 = mActivity.getResources().getIdentifier(msg, "drawable", mActivity.getPackageName());
+        ((ImageView) mActivity.findViewById(R.id.communityCardPic4)).setImageResource(resID1);
+    }
+
+    public void setFifthCard(String msg) {
+        int resID1 = mActivity.getResources().getIdentifier(msg, "drawable", mActivity.getPackageName());
+        ((ImageView) mActivity.findViewById(R.id.communityCardPic5)).setImageResource(resID1);
     }
 
     public void setWageredCoins(String msg) {
@@ -80,6 +102,8 @@ public class Client {
         ((TextView) mActivity.findViewById(R.id.toEven)).setText(String.valueOf(toEven));
         ((TextView) mActivity.findViewById(R.id.balance)).setText(String.valueOf(balance));
         ((TextView) mActivity.findViewById(R.id.coinsInRound)).setText(String.valueOf(myCoinsInRound));
+        ((TextView) mActivity.findViewById(R.id.wageredCoins)).setText(String.valueOf(allCoinsInRound));
+        ((TextView) mActivity.findViewById(R.id.allWageredCoins)).setText(String.valueOf(coinsInGame));
     }
 
     public void setCoins(String str) {
@@ -94,32 +118,30 @@ public class Client {
     }
 
     public boolean setIsEven(){
-        if(toEven == 0)
-            this.isEven = true;
-        else
-            this.isEven = false;
+        this.isEven = toEven == 0;
         return this.isEven;
     }
 
-    public void setButtons(String msg, Boolean isVisible) {
+    public void setButtons(Boolean isVisible) {
         if(isVisible) {
-            mActivity.findViewById(R.id.even).setVisibility(View.VISIBLE);
-            mActivity.findViewById(R.id.raise).setVisibility(View.VISIBLE);
             mActivity.findViewById(R.id.pass).setVisibility(View.VISIBLE);
-
-            if (msg.equals("wait")) {
+            if ( toEven < balance )
+                mActivity.findViewById(R.id.raise).setVisibility(View.VISIBLE);
+            if ( allCoinsInRound == 0 )
                 mActivity.findViewById(R.id.wait).setVisibility(View.VISIBLE);
-            }
+            if ( allCoinsInRound > 0 )
+                mActivity.findViewById(R.id.even).setVisibility(View.VISIBLE);
+                if ( toEven > balance )
+                    ((Button) mActivity.findViewById(R.id.even)).setText("ALL IN");
+                else
+                    ((Button) mActivity.findViewById(R.id.even)).setText("EVEN");
+
         }
         else {
             mActivity.findViewById(R.id.even).setVisibility(View.GONE);
             mActivity.findViewById(R.id.raise).setVisibility(View.GONE);
             mActivity.findViewById(R.id.pass).setVisibility(View.GONE);
-
-            if (msg.equals("wait")) {
-                mActivity.findViewById(R.id.wait).setVisibility(View.GONE);
-
-            }
+            mActivity.findViewById(R.id.wait).setVisibility(View.GONE);
         }
     }
 

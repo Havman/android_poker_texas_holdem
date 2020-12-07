@@ -47,7 +47,14 @@ public class Server {
     int coinsToEven = 0;
     int allWageredCoins = 0;
     Card[] communityCards;
+    Card fourthCard;
+    Card fifthCard;
+
     String threeCardMsg = "";
+    String fourthCardMsg = "";
+    String fifthCardMsg = "";
+
+
     int smallBlind = 5;
     int bigBlind = 10;
 
@@ -61,12 +68,16 @@ public class Server {
     public Server(Context context, Activity activity){
         deck.shuffleDeck();
         communityCards = deck.getThreeCards();
+        fourthCard = deck.pullCard();
+        fifthCard = deck.pullCard();
         this.mContext = context;
         this.mActivity = activity;
         this.mNsdManager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
         for(Card c : communityCards){
             threeCardMsg += c.getImage() + ";";
         }
+        fourthCardMsg += fourthCard.getImage();
+        fifthCardMsg += fifthCard.getImage();
         //Start a thread with the server socket ready to receive connections...
         try {
            openConnectionThread();
@@ -194,9 +205,7 @@ public class Server {
                                         }
                                         else{
                                             outputsList = new ArrayList<>(outputs);
-                                            Log.e("Client Turn:", String.valueOf(clientTurnID));
                                             clientTurnID = (clientTurnID+outputs.size())%outputs.size();
-                                            Log.e("Client Turn:", String.valueOf(clientTurnID));
                                             isEvenMap.put(outputsList.get(clientTurnID), true);
                                             clientTurnID += 1;
                                             clientTurnID %= outputs.size();
@@ -204,7 +213,7 @@ public class Server {
                                                 output.write(msg.getBytes());
                                                 output.flush();
                                             }
-                                            outputsList.get(clientTurnID).write("{'Type': 'Solo', 'About': 'Visibility', 'Message': 'noWait'}".getBytes());
+                                            outputsList.get(clientTurnID).write("{'Type': 'Solo', 'About': 'Visibility', 'Message': ''}".getBytes());
                                             outputsList.get(clientTurnID).flush();
                                         }
                                     }
