@@ -200,21 +200,29 @@ public class Server {
                                                 outputsList.get(i).flush();
                                             }
                                             clientTurnID = (i)%outputs.size();
-                                            outputsList.get(clientTurnID).write("{'Type': 'Solo', 'About': 'Visibility', 'Message': 'noWait'}".getBytes());
+                                            outputsList.get(clientTurnID).write("{'Type': 'Solo', 'About': 'Visibility', 'Message': 'true'}".getBytes());
                                             outputsList.get(clientTurnID).flush();
                                         }
-                                        else{
+                                        else if(msgType.equals("NextRound")){
                                             outputsList = new ArrayList<>(outputs);
                                             clientTurnID = (clientTurnID+outputs.size())%outputs.size();
-                                            isEvenMap.put(outputsList.get(clientTurnID), true);
                                             clientTurnID += 1;
                                             clientTurnID %= outputs.size();
+                                            outputsList.get(clientTurnID).write("{'Type': 'Solo', 'About': 'Visibility', 'Message': 'true'}".getBytes());
+                                            outputsList.get(clientTurnID).flush();
                                             for (DataOutputStream output : outputs) {
                                                 output.write(msg.getBytes());
                                                 output.flush();
                                             }
-                                            outputsList.get(clientTurnID).write("{'Type': 'Solo', 'About': 'Visibility', 'Message': ''}".getBytes());
-                                            outputsList.get(clientTurnID).flush();
+                                        }
+                                        else{
+                                            outputsList = new ArrayList<>(outputs);
+                                            isEvenMap.put(outputsList.get(clientTurnID), true);
+                                            Log.e("nRound", isEvenMap.toString());
+                                            for (DataOutputStream output : outputs) {
+                                                output.write(msg.getBytes());
+                                                output.flush();
+                                            }
                                         }
                                     }
                                 } catch (Exception e) {

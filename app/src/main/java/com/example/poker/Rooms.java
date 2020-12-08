@@ -226,7 +226,7 @@ public class Rooms extends Activity {
             }
         });
 
-        final String checkNextMsg = "{'Type': 'Multi', 'About': 'Check', 'Message': ''}";
+        final String checkNextMsg = "{'Type': 'NextRound', 'About': 'NextRound', 'Message': ''}";
 
 
         toEven = findViewById(R.id.toEven);
@@ -239,8 +239,8 @@ public class Rooms extends Activity {
                     msg = "{'Type': 'Multi', 'About': 'Even', 'Message': '" + toEven.getText() + "'}";
                     mClient.evenCoins();
                     mClient.sendMessage(msg);
+                    mClient.sendMessage(checkNextMsg);
                     mClient.setButtons(false);
-                    mClient.sendMessage("{'Type': 'Multi', 'About': 'NextRound', 'Message': ''}");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -254,8 +254,32 @@ public class Rooms extends Activity {
                 try {
                     msg = "{'Type': 'Multi', 'About': 'Wait', 'Message': ''}";
                     mClient.sendMessage(msg);
+                    mClient.sendMessage(checkNextMsg);
                     mClient.setButtons(false);
-                    mClient.sendMessage("{'Type': 'Multi', 'About': 'NextRound', 'Message': ''}");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        raiseBtn = findViewById(R.id.raise);
+        raiseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        passBtn = findViewById(R.id.pass);
+        passBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

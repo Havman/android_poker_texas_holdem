@@ -32,9 +32,9 @@ public class RegexHandler {
                     jsonResponse.put("Message", newMsg);
                     return jsonResponse.toString();
                 case "NextRound":
-                    server.clientTurnID -= 1;
                     boolean nextRound = true;
                     int roundNumber;
+
                     for (Map.Entry<DataOutputStream, Boolean> entry : server.isEvenMap.entrySet()) {
                         if (!entry.getValue())
                             nextRound = false;
@@ -43,6 +43,7 @@ public class RegexHandler {
                         jsonResponse.remove("Message");
                         jsonResponse.remove("About");
                         roundNumber = server.roundNumber;
+                        Log.e("roundNum", "" + roundNumber);
                         if(roundNumber == 0) {
                             jsonResponse.put("About", "ThreeCards");
                             jsonResponse.put("Message", server.threeCardMsg);
@@ -59,7 +60,10 @@ public class RegexHandler {
                             jsonResponse.put("About", "LastRound");
                             jsonResponse.put("Message", "Msg");
                         }
-                        server.roundNumber += 1;
+                        server.roundNumber = (server.roundNumber + 1)%4;
+                        for (Map.Entry<DataOutputStream, Boolean> entry : server.isEvenMap.entrySet()) {
+                            server.isEvenMap.put(entry.getKey(), false);
+                        }
                     }
                     return jsonResponse.toString();
                 default:
@@ -102,7 +106,7 @@ public class RegexHandler {
                     client.mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            client.setButtons(true);
+                            client.setButtons(Boolean.valueOf(msg));
                         }
                     });
                     break;
