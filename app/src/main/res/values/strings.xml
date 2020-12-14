@@ -25,6 +25,13 @@
     <string name="allWageredCoins">All Coins In Game:</string>
     <string name="toEvenTxt">To Even:</string>
     <string name="toEven">0</string>
+    <string name="toRaiseTxt">Raise By</string>
+    <string name="toRaise">0</string>
+    <string name="plusOne">1</string>
+    <string name="plusFive">5</string>
+    <string name="plusTwenty">20</string>
+    <string name="plusMax">All In</string>
+    <string name="clearRaise">0</string>
     <string name="coinsInRound">Coins In Round:</string>
     <string name="defaultCoinsInRound">0</string>
     <string name="defaultAllWagered">0</string>

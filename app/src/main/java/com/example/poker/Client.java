@@ -2,7 +2,6 @@ package com.example.poker;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
@@ -40,6 +39,7 @@ public class Client {
     int allCoinsInRound = 0;
     int myCoinsInRound = 0;
     int toEven = 0;
+    int toRaise = 0;
     Boolean isEven = false;
 
 
@@ -64,11 +64,28 @@ public class Client {
         ((ImageView) mActivity.findViewById(R.id.hand2)).setImageResource(resID2);
     }
 
+    public void checkRaiseState(Boolean isClear){
+        if(!isClear && toRaise >= balance) {
+            ((TextView) mActivity.findViewById(R.id.toRaise)).setText(String.valueOf(balance));
+            ((Button) mActivity.findViewById(R.id.plusOne)).setVisibility(View.INVISIBLE);
+            ((Button) mActivity.findViewById(R.id.plusFive)).setVisibility(View.INVISIBLE);
+            ((Button) mActivity.findViewById(R.id.plusTwenty)).setVisibility(View.INVISIBLE);
+            ((Button) mActivity.findViewById(R.id.plusMax)).setVisibility(View.INVISIBLE);
+        }
+        else if(isClear){
+            ((Button) mActivity.findViewById(R.id.plusOne)).setVisibility(View.VISIBLE);
+            ((Button) mActivity.findViewById(R.id.plusFive)).setVisibility(View.VISIBLE);
+            ((Button) mActivity.findViewById(R.id.plusTwenty)).setVisibility(View.VISIBLE);
+            ((Button) mActivity.findViewById(R.id.plusMax)).setVisibility(View.VISIBLE);
+        }
+    }
+
     public void setNextRound() {
         coinsInGame += allCoinsInRound;
         toEven = 0;
         myCoinsInRound = 0;
         allCoinsInRound = 0;
+        toRaise = 0;
         setCoinsTxt();
     }
 
@@ -98,8 +115,15 @@ public class Client {
         ((TextView) mActivity.findViewById(R.id.wageredCoins)).setText(String.valueOf(allCoinsInRound));
     }
 
+    public void setToRaise(String msg) {
+        Log.e("toRaise", "" + myCoinsInRound);
+        toEven += Integer.parseInt(msg) - myCoinsInRound;
+        ((TextView) mActivity.findViewById(R.id.toEven)).setText(String.valueOf(allCoinsInRound));
+    }
+
     public void setCoinsTxt(){
         ((TextView) mActivity.findViewById(R.id.toEven)).setText(String.valueOf(toEven));
+        ((TextView) mActivity.findViewById(R.id.toRaise)).setText(String.valueOf(toRaise));
         ((TextView) mActivity.findViewById(R.id.balance)).setText(String.valueOf(balance));
         ((TextView) mActivity.findViewById(R.id.coinsInRound)).setText(String.valueOf(myCoinsInRound));
         ((TextView) mActivity.findViewById(R.id.wageredCoins)).setText(String.valueOf(allCoinsInRound));
@@ -131,27 +155,36 @@ public class Client {
                 mActivity.findViewById(R.id.wait).setVisibility(View.VISIBLE);
             if ( allCoinsInRound > 0 )
                 mActivity.findViewById(R.id.even).setVisibility(View.VISIBLE);
-                if ( toEven > balance )
+                if ( toEven > balance && balance > 0)
                     ((Button) mActivity.findViewById(R.id.even)).setText("ALL IN");
-                else
+                else if( balance > 0 )
                     ((Button) mActivity.findViewById(R.id.even)).setText("EVEN");
-
         }
         else {
-            mActivity.findViewById(R.id.even).setVisibility(View.GONE);
-            mActivity.findViewById(R.id.raise).setVisibility(View.GONE);
-            mActivity.findViewById(R.id.pass).setVisibility(View.GONE);
-            mActivity.findViewById(R.id.wait).setVisibility(View.GONE);
+            mActivity.findViewById(R.id.even).setVisibility(View.INVISIBLE);
+            mActivity.findViewById(R.id.raise).setVisibility(View.INVISIBLE);
+            mActivity.findViewById(R.id.pass).setVisibility(View.INVISIBLE);
+            mActivity.findViewById(R.id.wait).setVisibility(View.INVISIBLE);
         }
     }
 
     public void evenCoins() {
         balance -= toEven;
+        balance -= toRaise;
         myCoinsInRound += toEven;
+        myCoinsInRound += toRaise;
         toEven = 0;
+        toRaise = 0;
         setIsEven();
         setCoinsTxt();
     }
+
+//    public void raiseCoins(){
+//        balance -= toRaise;
+//        myCoinsInRound += toRaise;
+//        toRaise = 0;
+//        setCoinsTxt();
+//    }
 
     public void showToast(String message) {
         Toast.makeText(this.mContext, message, Toast.LENGTH_SHORT).show();

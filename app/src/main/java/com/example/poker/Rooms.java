@@ -79,14 +79,14 @@
 //            .setPositiveButton(getString(R.string.app_name), new DialogInterface.OnClickListener() {
 //                @Override
 //                public void onClick(DialogInterface dialog, int which) {
-//                    mDiscoverBtn.setVisibility(View.GONE);
+//                    mDiscoverBtn.setVisibility(View.INVISIBLE);
 //                    dialog.dismiss();
 //                }
 //            })
 //            .setNegativeButton(getString(R.string.app_name), new DialogInterface.OnClickListener() {
 //                @Override
 //                public void onClick(DialogInterface dialog, int which) {
-//                    mRegisterBtn.setVisibility(View.GONE);
+//                    mRegisterBtn.setVisibility(View.INVISIBLE);
 //                    dialog.dismiss();
 //                }
 //            })
@@ -114,8 +114,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.UiThread;
-
 public class Rooms extends Activity {
 
     private Server mNSDListener;
@@ -134,9 +132,18 @@ public class Rooms extends Activity {
     private Button raiseBtn;
     private Button passBtn;
 
+    private Button plusOneBtn;
+    private Button plusFiveBtn;
+    private Button plusTwentyBtn;
+    private Button plusMaxBtn;
+    private Button clearRaiseBtn;
+
+
     private TextView balanceTxt;
     private TextView toEven;
     private TextView coinsInRound;
+    private TextView raiseBy;
+
 
     private int balance = 1000;
 
@@ -152,7 +159,6 @@ public class Rooms extends Activity {
         imgView.setImageResource(resID);
     }
 
-
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,7 +170,7 @@ public class Rooms extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mNSDListener = new Server(context, activity);
-                        mDiscoverBtn.setVisibility(View.GONE);
+                        mDiscoverBtn.setVisibility(View.INVISIBLE);
                         dialog.dismiss();
                     }
                 })
@@ -172,12 +178,64 @@ public class Rooms extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mClient = new Client(context, mDiscoveryListener, activity);
-                        mRegisterBtn.setVisibility(View.GONE);
+                        mRegisterBtn.setVisibility(View.INVISIBLE);
                         dialog.dismiss();
                     }
                 })
                 .setCancelable(false)
                 .show();
+
+        raiseBy = findViewById(R.id.toRaise);
+
+        plusOneBtn = findViewById(R.id.plusOne);
+        plusOneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClient.toRaise += 1;
+                raiseBy.setText(String.valueOf(mClient.toRaise));
+                mClient.checkRaiseState(false);
+            }
+        });
+
+        plusFiveBtn = findViewById(R.id.plusFive);
+        plusFiveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClient.toRaise += 5;
+                raiseBy.setText(String.valueOf(mClient.toRaise));
+                mClient.checkRaiseState(false);
+            }
+        });
+
+        plusTwentyBtn = findViewById(R.id.plusTwenty);
+        plusTwentyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClient.toRaise += 20;
+                raiseBy.setText(String.valueOf(mClient.toRaise));
+                mClient.checkRaiseState(false);
+            }
+        });
+
+        plusMaxBtn = findViewById(R.id.plusMax);
+        plusMaxBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClient.toRaise = mClient.balance;
+                raiseBy.setText(String.valueOf(mClient.toRaise));
+                mClient.checkRaiseState(false);
+            }
+        });
+
+        clearRaiseBtn = findViewById(R.id.clearRaise);
+        clearRaiseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClient.toRaise = 0;
+                raiseBy.setText(String.valueOf(mClient.toRaise));
+                mClient.checkRaiseState(true);
+            }
+        });
 
         mRegisterBtn = findViewById(R.id.register);
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
@@ -205,7 +263,7 @@ public class Rooms extends Activity {
                 try {
                     msg = "{'Type': 'Server', 'About': 'StartGame', 'Message': ''}" ;
                     mClient.sendMessage(msg);
-                    startGameBtn.setVisibility(View.GONE);
+                    startGameBtn.setVisibility(View.INVISIBLE);
                     balanceTxt.setText(String.valueOf(balance));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -218,8 +276,8 @@ public class Rooms extends Activity {
             @Override
             public void onClick(View v) {
                 mDiscoverBtn.setVisibility(View.VISIBLE);
-                joinAsClientBtn.setVisibility(View.GONE);
-                mRegisterBtn.setVisibility(View.GONE);
+                joinAsClientBtn.setVisibility(View.INVISIBLE);
+                mRegisterBtn.setVisibility(View.INVISIBLE);
                 startGameBtn.setVisibility(View.VISIBLE);
                 mClient = new Client(context, mDiscoveryListener, activity);
                 mClient.discoverServices();
@@ -267,7 +325,11 @@ public class Rooms extends Activity {
             @Override
             public void onClick(View v) {
                 try {
-
+                    msg = "{'Type': 'Multi', 'About': 'Raise', 'Message': '" + mClient.toRaise + "'}";
+                    mClient.evenCoins();
+                    mClient.sendMessage(msg);
+                    mClient.sendMessage(checkNextMsg);
+                    mClient.setButtons(false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -294,7 +356,7 @@ public class Rooms extends Activity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mDiscoverBtn.setVisibility(View.GONE);
+                    mDiscoverBtn.setVisibility(View.INVISIBLE);
                     showToast("Connected");
                     try {
                         msg = "{'Type': 'Solo', 'About': 'Info', 'Message': 'Connected'}";

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
+    android:textSize="5px"
     tools:context=".MainActivity">
 
     <Button
@@ -27,14 +28,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:text="start"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/startGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/startGame"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/allWageredCoinsTxt"
@@ -148,7 +149,7 @@
 
     <Button
         android:id="@+id/wait"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/communityCardPic1"
@@ -157,7 +158,7 @@
 
     <Button
         android:id="@+id/even"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/communityCardPic1"
@@ -170,8 +171,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/even"
+        android:layout_toEndOf="@+id/wait"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:textColor="@color/white"
         android:textSize="10pt"
         android:background="@color/black">
@@ -183,8 +185,9 @@
         android:layout_height="wrap_content"
         android:text="@string/toEven"
         android:layout_below="@+id/toEvenTxt"
+        android:layout_toEndOf="@+id/wait"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:textColor="@color/white"
         android:textSize="10pt"
         android:background="@color/black">
@@ -192,33 +195,101 @@
 
     <Button
         android:id="@+id/raise"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/communityCardPic1"
         android:layout_toEndOf="@+id/even"
         android:text="@string/raise"/>
 
+    <TextView
+        android:id="@+id/toRaiseTxt"
+        android:text="@string/toRaiseTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/raise"
+        android:layout_toEndOf="@+id/even"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:textSize="10pt"
+        android:background="@color/black">
+    </TextView>
+
+    <TextView
+        android:id="@+id/toRaise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/toRaise"
+        android:layout_below="@+id/toRaiseTxt"
+        android:layout_toEndOf="@+id/even"
+        android:layout_marginTop="5dp"
+
+        android:textColor="@color/white"
+        android:textSize="10pt"
+        android:background="@color/black">
+    </TextView>
+
+    <Button
+        android:id="@+id/plusOne"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:layout_toEndOf="@+id/toRaiseTxt"
+        android:layout_marginStart="5dp"
+        android:layout_below="@+id/pass"
+        android:text="@string/plusOne"/>
+
+    <Button
+        android:id="@+id/plusFive"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:layout_toEndOf="@+id/plusOne"
+        android:layout_below="@+id/pass"
+        android:text="@string/plusFive"/>
+
+    <Button
+        android:id="@+id/plusTwenty"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toEndOf="@+id/plusFive"
+        android:layout_below="@+id/pass"
+        android:text="@string/plusTwenty"/>
+
+    <Button
+        android:id="@+id/plusMax"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:layout_toEndOf="@+id/toRaiseTxt"
+        android:layout_below="@+id/plusOne"
+        android:text="@string/plusMax"/>
+
+    <Button
+        android:id="@+id/clearRaise"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:layout_toEndOf="@+id/plusMax"
+        android:layout_below="@+id/plusOne"
+        android:text="@string/clearRaise"/>
+
     <Button
         android:id="@+id/pass"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/raise"
         android:layout_below="@+id/communityCardPic1"
         android:text="@string/pass"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/yourHand"
-        android:layout_above="@+id/hand1"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="40dp"
-        android:textColor="@color/white"
-        android:textSize="10pt"
-        android:background="@color/black">
-    </TextView>
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/yourHand"-->
+<!--        android:layout_above="@+id/hand1"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="10pt"-->
+<!--        android:background="@color/black">-->
+<!--    </TextView>-->
 
     <TextView
         android:id="@+id/yourCoins"
@@ -247,18 +318,18 @@
         android:background="@color/black">
     </TextView>
 
-    <ImageView
-        android:id="@+id/coinsImg"
-        android:layout_width="35dp"
-        android:layout_height="40dp"
-        android:src="@drawable/coin"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="75dp"
-        android:layout_marginStart="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/balance"
-        android:contentDescription="@string/card" />
+<!--    <ImageView-->
+<!--        android:id="@+id/coinsImg"-->
+<!--        android:layout_width="35dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:src="@drawable/coin"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:layout_marginBottom="75dp"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_toEndOf="@+id/balance"-->
+<!--        android:contentDescription="@string/card" />-->
 
     <TextView
         android:id="@+id/coinsInRoundTxt"
@@ -288,18 +359,18 @@
         android:background="@color/black">
     </TextView>
 
-    <ImageView
-        android:id="@+id/coinsImg2"
-        android:layout_width="35dp"
-        android:layout_height="40dp"
-        android:src="@drawable/coin"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="5dp"
-        android:layout_marginStart="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/balance"
-        android:contentDescription="@string/card" />
+<!--    <ImageView-->
+<!--        android:id="@+id/coinsImg2"-->
+<!--        android:layout_width="35dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:src="@drawable/coin"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:layout_marginBottom="5dp"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_toEndOf="@+id/balance"-->
+<!--        android:contentDescription="@string/card" />-->
 
     <ImageView
         android:id="@+id/hand1"

@@ -31,6 +31,11 @@ public class RegexHandler {
                     jsonResponse.remove("Message");
                     jsonResponse.put("Message", newMsg);
                     return jsonResponse.toString();
+                case "Raise":
+                    for (Map.Entry<DataOutputStream, Boolean> entry : server.isEvenMap.entrySet()) {
+                        server.isEvenMap.put(entry.getKey(), false);
+                    }
+                    return jsonResponse.toString();
                 case "NextRound":
                     boolean nextRound = true;
                     int roundNumber;
@@ -99,6 +104,15 @@ public class RegexHandler {
                         @Override
                         public void run() {
                             client.setWageredCoins(msg);
+                        }
+                    });
+                    break;
+                case "Raise":
+                    client.mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            client.setWageredCoins(msg);
+                            client.setToRaise(msg);
                         }
                     });
                     break;

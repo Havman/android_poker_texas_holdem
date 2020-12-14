@@ -217,12 +217,12 @@ public class Server {
                                         }
                                         else{
                                             outputsList = new ArrayList<>(outputs);
-                                            isEvenMap.put(outputsList.get(clientTurnID), true);
-                                            Log.e("nRound", isEvenMap.toString());
                                             for (DataOutputStream output : outputs) {
                                                 output.write(msg.getBytes());
                                                 output.flush();
                                             }
+                                            isEvenMap.put(outputsList.get(clientTurnID), true);
+                                            Log.e("nRound", isEvenMap.toString());
                                         }
                                     }
                                 } catch (Exception e) {
